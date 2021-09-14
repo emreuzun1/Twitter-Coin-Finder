@@ -4,10 +4,8 @@ import * as type from '../actionTypes';
 
 function* getTweets(action: any) {
   try {
-    const {id} = action.payload;
-    const {
-      data: {data},
-    } = yield call(requestTweets, id);
+    const {ids} = action.payload;
+    const {data} = yield call(requestTweets, ids);
     yield put({type: type.TWEET_SUCCESS, payload: data});
   } catch (err) {
     console.log('err', err);

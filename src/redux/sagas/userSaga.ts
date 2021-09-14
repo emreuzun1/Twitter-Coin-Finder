@@ -4,10 +4,8 @@ import {USER_REQUEST, USER_SUCCESS} from '../actionTypes';
 
 function* getUser(action: any) {
   try {
-    const {username} = action.payload;
-    const {
-      data: {data},
-    } = yield call(requestUser, username);
+    const {usernames} = action.payload;
+    const {data} = yield call(requestUser, usernames);
     yield put({type: USER_SUCCESS, payload: data});
   } catch (err) {
     console.log(err);

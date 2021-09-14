@@ -1,10 +1,10 @@
 import * as type from '../actionTypes';
 
-export function requestTweets(id: string) {
+export function requestTweets(ids: string[]) {
   return {
     type: type.TWEET_REQUEST,
     payload: {
-      id,
+      ids,
     },
   };
 }

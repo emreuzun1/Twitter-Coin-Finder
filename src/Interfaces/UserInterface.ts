@@ -5,5 +5,5 @@ export interface IUser {
 }
 
 export interface ActionUser {
-  user: IUser;
+  users: IUser[];
 }
