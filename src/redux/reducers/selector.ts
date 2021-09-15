@@ -52,7 +52,6 @@ export const getCoins = createSelector(getTweetsWithoutReply, data => {
   Object.keys(data).forEach((dataKey, dataIndex) => {
     Object.keys(coinTypes).forEach((key, index) => {
       if (data[dataIndex].text.indexOf(coinTypes[index].name) > -1) {
-        console.log(data[dataIndex].text);
         coinTypes[index].count++;
       }
     });

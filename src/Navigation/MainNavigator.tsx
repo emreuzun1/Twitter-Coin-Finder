@@ -18,8 +18,13 @@ type TabParamList = {
 
 function Home() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Main" component={Main} options={{headerShown: false}} />
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: '#2C374A',
+        },
+      }}>
+      <Tab.Screen name="Main" component={Main} />
       <Tab.Screen name="People" component={People} />
       <Tab.Screen name="Coins" component={Coin} />
     </Tab.Navigator>
@@ -29,7 +34,9 @@ function Home() {
 function MainNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{headerShown: false}}>
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
