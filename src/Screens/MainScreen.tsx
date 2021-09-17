@@ -15,13 +15,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {getCoins, getIdsOfUsers} from '../redux/reducers/selector';
 import {requestUser} from '../redux/actions/userActions';
 import {requestTweets} from '../redux/actions/tweetActions';
+import {getCoinsFromBinance} from '../redux/actions/coinActions';
 import {IState} from '../Interfaces/ActionInterface';
 import {Users} from '../constants/TweetUsers';
-import {Coin} from '../Interfaces/CoinInterface';
 import {Colors, getColor} from '../constants/Colors';
 import CoinBarCard from '../components/CoinBarCard';
 import {TabParamList} from '../Navigation/types';
-import {getSymbols} from '../Lib/binanceApi';
+import {Coin} from '../Interfaces/CoinInterface';
 
 type MainProp = BottomTabNavigationProp<TabParamList, 'Home'>;
 
@@ -86,7 +86,7 @@ const MainScreen: FC<IMain> = ({navigation}) => {
 
   React.useEffect(() => {
     dispatch(requestUser(Users));
-    getSymbols('ETHUSDT');
+    dispatch(getCoinsFromBinance());
   }, []);
 
   React.useEffect(() => {
@@ -116,17 +116,22 @@ const MainScreen: FC<IMain> = ({navigation}) => {
                 })}
                 getItemCount={data => data.length}
                 initialNumToRender={3}
-                keyExtractor={item => item.coin.name}
+                keyExtractor={item => item.coin.coin.baseAsset}
                 renderItem={({item, index}) => {
                   var barHeight = height / 5;
-                  if (index !== 0 && item.coin.count !== 0) {
+                  if (
+                    index !== 0 &&
+                    item.coin.count !== 0 &&
+                    coins[0].count !== 0
+                  ) {
+                    console.log(item);
                     barHeight = barHeight * (item.coin.count / coins[0].count);
                   } else if (item.coin.count === 0) {
                     barHeight = 1;
                   }
                   return (
                     <CoinBarCard
-                      title={item.coin.name}
+                      title={item.coin.coin.baseAsset}
                       count={item.coin.count}
                       color={getColor(index)}
                       height={barHeight}

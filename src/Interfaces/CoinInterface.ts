@@ -1,8 +1,14 @@
+import {CoinResponse} from '../Lib/BinanceApiResponses';
+
 export interface Coin {
-  name: string;
+  coin: CoinResponse;
   count: number;
 }
 
+export interface CoinState {
+  coin: CoinResponse[];
+}
+
 export interface CoinTypes {
-  coin: Coin[];
+  coin: CoinResponse[];
 }

@@ -3,4 +3,9 @@ export const Users: string[] = [
   'CryptoMelih',
   'CryptoGenzo',
   'siesta_laila',
+  'borsaressami',
+  'selcoin',
+  'cryptocapo_',
+  'kriptokalamar',
+  'bullscoin',
 ];

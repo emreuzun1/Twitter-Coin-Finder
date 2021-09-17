@@ -34,7 +34,7 @@ export async function requestTweets(ids: string[]) {
         Authorization: `Bearer ${token}`,
       },
       params: {
-        max_results: 50,
+        max_results: 10,
       },
     }).then(val => {
       tempData.push(val.data.data);

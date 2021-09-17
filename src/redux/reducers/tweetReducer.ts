@@ -4,7 +4,7 @@ import * as type from '../actionTypes';
 
 const initialState: TweetState = {
   tweets: [],
-  loading: false,
+  loading: true,
 };
 
 export default (state = initialState, action: any) =>

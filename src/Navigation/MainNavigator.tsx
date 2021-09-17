@@ -25,6 +25,7 @@ function Home() {
         headerTitleStyle: {
           color: 'white',
         },
+        tabBarActiveTintColor: 'white',
       }}>
       <Tab.Screen
         name="Main"
