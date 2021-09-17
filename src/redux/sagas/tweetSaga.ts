@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from '@redux-saga/core/effects';
-import {requestTweets} from '../../Lib/api';
+import {requestTweets} from '../../Lib/twitterApi';
 import * as type from '../actionTypes';
 
 function* getTweets(action: any) {

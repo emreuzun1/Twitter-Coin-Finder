@@ -2,12 +2,15 @@
 import React, {FC} from 'react';
 import {
   StyleSheet,
-  SafeAreaView,
-  VirtualizedList,
-  Text,
   ActivityIndicator,
+  Dimensions,
+  View,
+  VirtualizedList,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import styled from 'styled-components/native';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {getCoins, getIdsOfUsers} from '../redux/reducers/selector';
 import {requestUser} from '../redux/actions/userActions';
@@ -15,8 +18,66 @@ import {requestTweets} from '../redux/actions/tweetActions';
 import {IState} from '../Interfaces/ActionInterface';
 import {Users} from '../constants/TweetUsers';
 import {Coin} from '../Interfaces/CoinInterface';
+import {Colors, getColor} from '../constants/Colors';
+import CoinBarCard from '../components/CoinBarCard';
+import {TabParamList} from '../Navigation/types';
+import {getSymbols} from '../Lib/binanceApi';
 
-const MainScreen: FC = () => {
+type MainProp = BottomTabNavigationProp<TabParamList, 'Home'>;
+
+const {width, height} = Dimensions.get('screen');
+
+const StyledContainer = styled.SafeAreaView({
+  flex: 1,
+  alignItems: 'center',
+  backgroundColor: Colors.black,
+});
+
+const StyledHeaderContainer = styled.View({
+  flex: 1,
+  marginLeft: 12,
+  marginTop: 24,
+});
+
+const StyledHeaderText = styled.Text({
+  fontSize: 20,
+  fontWeight: 700,
+  color: 'white',
+});
+
+const StyledGraphContainer = styled.View({
+  width: width,
+  height: height / 4,
+  paddingHorizontal: 32,
+});
+
+const StyledGraph = styled.View({
+  height: height / 4.5,
+  borderLeftWidth: 1,
+  borderBottomWidth: 1,
+  borderColor: 'white',
+  flexDirection: 'row',
+  justifyContent: 'space-evenly',
+  alignItems: 'flex-end',
+});
+
+const StyledCoinDetailsContainer = styled.View({
+  flex: 8,
+});
+
+const StyledGraphLine = styled.View({
+  marginTop: 12,
+  width: width / 1.05,
+  backgroundColor: 'white',
+  height: 2,
+  alignSelf: 'center',
+});
+
+interface IMain {
+  navigation: MainProp;
+}
+
+const MainScreen: FC<IMain> = ({navigation}) => {
   const ids = useSelector(getIdsOfUsers);
   const users = useSelector((state: IState) => state.user.users);
   const loading = useSelector((state: IState) => state.tweet.loading);
@@ -25,6 +86,7 @@ const MainScreen: FC = () => {
 
   React.useEffect(() => {
     dispatch(requestUser(Users));
+    getSymbols('ETHUSDT');
   }, []);
 
   React.useEffect(() => {
@@ -34,48 +96,62 @@ const MainScreen: FC = () => {
   }, [ids]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <StyledContainer>
       {loading ? (
         <ActivityIndicator size="large" color="#0FBC5F" />
       ) : (
-        <VirtualizedList
-          contentContainerStyle={styles.list}
-          data={coins}
-          initialNumToRender={3}
-          getItem={(data: any, index: number) => ({
-            item: data[index],
-          })}
-          getItemCount={data => data.length}
-          keyExtractor={item => item.item.name}
-          renderItem={({item}) => {
-            return (
-              <Text style={{color: 'white'}}>
-                {item.item.name} {item.item.count}
-              </Text>
-            );
-          }}
-        />
+        <View>
+          <StyledHeaderContainer>
+            <StyledHeaderText>En çok konuşulan coinler</StyledHeaderText>
+          </StyledHeaderContainer>
+          <StyledGraphContainer>
+            <StyledGraph>
+              <VirtualizedList
+                style={styles.list}
+                contentContainerStyle={styles.listContent}
+                data={coins}
+                getItem={(data: Coin[], index: number) => ({
+                  coin: data[index],
+                  index: index,
+                })}
+                getItemCount={data => data.length}
+                initialNumToRender={3}
+                keyExtractor={item => item.coin.name}
+                renderItem={({item, index}) => {
+                  var barHeight = height / 5;
+                  if (index !== 0 && item.coin.count !== 0) {
+                    barHeight = barHeight * (item.coin.count / coins[0].count);
+                  } else if (item.coin.count === 0) {
+                    barHeight = 1;
+                  }
+                  return (
+                    <CoinBarCard
+                      title={item.coin.name}
+                      count={item.coin.count}
+                      color={getColor(index)}
+                      height={barHeight}
+                    />
+                  );
+                }}
+              />
+            </StyledGraph>
+          </StyledGraphContainer>
+          <StyledGraphLine />
+          <StyledCoinDetailsContainer />
+        </View>
       )}
-    </SafeAreaView>
+    </StyledContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#1D2730',
-  },
-  input: {
-    width: '80%',
-    height: 40,
-    backgroundColor: '#2C374A',
-    borderRadius: 8,
-    paddingLeft: 8,
-    color: 'white',
-  },
   list: {
-    alignItems: 'center',
+    overflow: 'visible',
+  },
+  listContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'flex-end',
   },
 });
 

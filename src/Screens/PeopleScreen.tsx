@@ -15,17 +15,6 @@ type PeopleProps = BottomTabNavigationProp<RootStackParamList, 'People'>;
 
 const PeopleScreen: FC = () => {
   const navigation = useNavigation<PeopleProps>();
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitleStyle: {
-        color: 'white',
-      },
-      headerStyle: {
-        backgroundColor: '#2C374A',
-      },
-      tabBarIcon: () => <Ionicons name="person" size={24} color="white" />,
-    });
-  });
 
   return (
     <View style={styles.container}>

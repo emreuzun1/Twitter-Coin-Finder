@@ -1,5 +1,5 @@
 /* eslint-disable no-array-constructor */
-import axios from '../Lib/axios';
+import axios from './twitterAxios';
 import {IUser} from '../Interfaces/UserInterface';
 import {ITweet} from '../Interfaces/TweetInterface';
 const token =

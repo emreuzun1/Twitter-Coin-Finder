@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {requestUser} from '../../Lib/api';
+import {requestUser} from '../../Lib/twitterApi';
 import {USER_REQUEST, USER_SUCCESS} from '../actionTypes';
 
 function* getUser(action: any) {

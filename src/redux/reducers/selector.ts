@@ -56,5 +56,5 @@ export const getCoins = createSelector(getTweetsWithoutReply, data => {
       }
     });
   });
-  return coinTypes;
+  return coinTypes.sort((a: Coin, b: Coin) => b.count - a.count);
 });
