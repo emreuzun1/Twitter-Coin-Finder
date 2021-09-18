@@ -1,10 +1,10 @@
 import {CoinResponse} from '../Lib/BinanceApiResponses';
-import {ITweet} from './TweetInterface';
+import {Tweet} from './TweetInterface';
 
 export interface Coin {
   coin: CoinResponse;
   count: number;
-  tweets: ITweet[];
+  tweets: Tweet[];
 }
 
 export interface CoinState {

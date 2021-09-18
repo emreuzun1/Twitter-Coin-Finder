@@ -1,10 +1,28 @@
 export interface ITweet {
   id: string;
   text: string;
-  in_reply_to_user_id: string;
+  author_id: string;
+}
+
+export interface TweetResponse {
+  data: ITweet[];
+  includes: {
+    users: TweetUserResponse[];
+  };
+}
+
+export interface Tweet extends ITweet {
+  name: string;
+  username: string;
+}
+
+export interface TweetUserResponse {
+  id: string;
+  name: string;
+  username: string;
 }
 
 export interface TweetState {
-  tweets: ITweet[];
+  tweets: Tweet[];
   loading: boolean;
 }

@@ -1,5 +1,7 @@
 import React, {FC} from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import {Colors} from '../constants/Colors';
 
 const {width} = Dimensions.get('screen');
 
@@ -17,9 +19,9 @@ const TweetCard: FC<ITweet> = ({username, name, text}) => {
         <Text style={styles.nameText}>{name}</Text>
         <Text style={styles.usernameText}>@{username}</Text>
       </View>
-      <View style={styles.bottomContainer}>
+      <ScrollView contentContainerStyle={styles.bottomContainer}>
         <Text style={styles.tweetText}>{text}</Text>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -29,9 +31,10 @@ const styles = StyleSheet.create({
     width: width / 1.1,
     marginTop: 12,
     height: 150,
-    backgroundColor: '#2C374A',
+    backgroundColor: Colors.darkBlue,
     padding: 8,
     borderRadius: 12,
+    overflow: 'hidden',
   },
   upContainer: {
     flexDirection: 'row',

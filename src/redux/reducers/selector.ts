@@ -19,16 +19,6 @@ export const getIdsOfUsers = createSelector(getUsers, data => {
 });
 
 /*
-Filters the tweets according to it is reply or not.
-*/
-export const getTweetsWithoutReply = createSelector(getTweets, data => {
-  const tweets = Object.values(data).filter(key => {
-    return key.in_reply_to_user_id === undefined;
-  });
-  return tweets;
-});
-
-/*
 Filters the coins according to it is a USDT.
 */
 
@@ -50,18 +40,15 @@ export const getUSDT = createSelector(getCoinsFromBinance, data => {
 /*
 Checks for tweets that include the coin or not.
 */
-export const getCoins = createSelector(
-  [getTweetsWithoutReply, getUSDT],
-  (data, usdt) => {
-    Object.keys(data).forEach((dataKey, dataIndex) => {
-      Object.keys(usdt).forEach((key, index) => {
-        if (data[dataIndex].text.includes(usdt[index].coin.baseAsset)) {
-          usdt[index].tweets.push(data[dataIndex]);
-          usdt[index].count++;
-        }
-      });
+export const getCoins = createSelector([getTweets, getUSDT], (tweets, usdt) => {
+  Object.values(tweets).map(data => {
+    Object.keys(usdt).forEach((key, index) => {
+      if (data.text.includes(usdt[index].coin.baseAsset)) {
+        usdt[index].tweets.push(data);
+        usdt[index].count++;
+      }
     });
-    const arr = usdt.sort((a: Coin, b: Coin) => b.count - a.count);
-    return arr.slice(0, 5);
-  },
-);
+  });
+  const arr = usdt.sort((a: Coin, b: Coin) => b.count - a.count);
+  return arr.slice(0, 5);
+});
