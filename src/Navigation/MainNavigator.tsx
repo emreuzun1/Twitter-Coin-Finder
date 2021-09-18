@@ -1,5 +1,5 @@
 import React from 'react';
-import {TabParamList} from './types';
+import {RootStackParamList} from './types';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -8,9 +8,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Main from '../Screens/MainScreen';
 import People from '../Screens/PeopleScreen';
 import Coin from '../Screens/CoinScreen';
+import Tweet from '../Screens/TweetScreen';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator<TabParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function Home() {
   return (
@@ -74,13 +75,28 @@ function Home() {
 }
 
 function MainNavigator() {
+  const {Navigator} = Stack;
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
+      <Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Tweet"
+          component={Tweet}
+          options={{
+            headerStyle: {
+              backgroundColor: '#2C374A',
+            },
+            headerTitleStyle: {
+              color: 'white',
+            },
+          }}
+        />
+      </Navigator>
     </NavigationContainer>
   );
 }

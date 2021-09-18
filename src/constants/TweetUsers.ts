@@ -8,4 +8,7 @@ export const Users: string[] = [
   'cryptocapo_',
   'kriptokalamar',
   'bullscoin',
+  'altcoinrookie',
+  'canozsuerx',
+  'ekonomikocu',
 ];

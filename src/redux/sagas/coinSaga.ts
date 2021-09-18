@@ -14,6 +14,14 @@ function* getCoins() {
   }
 }
 
-const coinSaga = [takeLatest(type.COIN_REQUEST, getCoins)];
+function* getSymbolPrice(action: any) {
+  const {symbol} = action;
+  console.log(symbol);
+}
+
+const coinSaga = [
+  takeLatest(type.COIN_REQUEST, getCoins),
+  takeLatest(type.COIN_PRICE_REQUEST, getSymbolPrice),
+];
 
 export default coinSaga;

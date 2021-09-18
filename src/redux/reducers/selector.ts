@@ -11,7 +11,6 @@ const getCoinsFromBinance = (state: IState) => state.coin.coin;
 Gets the id of users from reducer.
 */
 export const getIdsOfUsers = createSelector(getUsers, data => {
-  // eslint-disable-next-line no-array-constructor
   let ids = new Array<string>();
   Object.values(data).forEach(val => {
     ids.push(val.id);
@@ -40,6 +39,7 @@ export const getUSDT = createSelector(getCoinsFromBinance, data => {
       const coin: Coin = {
         coin: val,
         count: 0,
+        tweets: [],
       };
       usdtArr.push(coin);
     }
@@ -56,11 +56,12 @@ export const getCoins = createSelector(
     Object.keys(data).forEach((dataKey, dataIndex) => {
       Object.keys(usdt).forEach((key, index) => {
         if (data[dataIndex].text.includes(usdt[index].coin.baseAsset)) {
+          usdt[index].tweets.push(data[dataIndex]);
           usdt[index].count++;
         }
       });
     });
     const arr = usdt.sort((a: Coin, b: Coin) => b.count - a.count);
-    return arr.slice(0, 6);
+    return arr.slice(0, 5);
   },
 );

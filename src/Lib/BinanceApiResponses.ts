@@ -34,3 +34,8 @@ export interface BinanceResponse {
   status: number;
   statusText: undefined;
 }
+
+export interface BinanceSymbolResponse {
+  price: string;
+  symbol: string;
+}

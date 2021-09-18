@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components/native';
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {getCoins, getIdsOfUsers} from '../redux/reducers/selector';
 import {requestUser} from '../redux/actions/userActions';
@@ -20,10 +19,11 @@ import {IState} from '../Interfaces/ActionInterface';
 import {Users} from '../constants/TweetUsers';
 import {Colors, getColor} from '../constants/Colors';
 import CoinBarCard from '../components/CoinBarCard';
-import {TabParamList} from '../Navigation/types';
+import {RootStackParamList} from '../Navigation/types';
 import {Coin} from '../Interfaces/CoinInterface';
+import TweetDetailCard from '../components/TweetDetailCard';
 
-type MainProp = BottomTabNavigationProp<TabParamList, 'Home'>;
+type MainProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 const {width, height} = Dimensions.get('screen');
 
@@ -124,7 +124,6 @@ const MainScreen: FC<IMain> = ({navigation}) => {
                     item.coin.count !== 0 &&
                     coins[0].count !== 0
                   ) {
-                    console.log(item);
                     barHeight = barHeight * (item.coin.count / coins[0].count);
                   } else if (item.coin.count === 0) {
                     barHeight = 1;
@@ -142,7 +141,32 @@ const MainScreen: FC<IMain> = ({navigation}) => {
             </StyledGraph>
           </StyledGraphContainer>
           <StyledGraphLine />
-          <StyledCoinDetailsContainer />
+          <StyledCoinDetailsContainer>
+            <VirtualizedList
+              data={coins}
+              getItem={(data: Coin[], index: number) => ({
+                coin: data[index],
+                index: index,
+              })}
+              getItemCount={(data: Coin[]) => data.length}
+              initialNumToRender={4}
+              keyExtractor={item => `${item.index}`}
+              renderItem={({item}) => {
+                return (
+                  <TweetDetailCard
+                    symbol={item.coin.coin.symbol}
+                    tweets={item.coin.tweets}
+                    onPress={(symbol, tweets) =>
+                      navigation.navigate('Tweet', {
+                        symbol: symbol,
+                        tweets: tweets,
+                      })
+                    }
+                  />
+                );
+              }}
+            />
+          </StyledCoinDetailsContainer>
         </View>
       )}
     </StyledContainer>

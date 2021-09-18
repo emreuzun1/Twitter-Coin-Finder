@@ -1,11 +1,6 @@
-import {NavigatorScreenParams} from '@react-navigation/native';
+import {ITweet} from '../Interfaces/TweetInterface';
 
-export type RootTabParamList = {
+export type RootStackParamList = {
   Home: undefined;
-  People: undefined;
-  Coin: undefined;
-};
-
-export type TabParamList = {
-  Home: NavigatorScreenParams<RootTabParamList>;
+  Tweet: {symbol: string; tweets: ITweet[]};
 };

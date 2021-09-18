@@ -5,3 +5,10 @@ export function getCoinsFromBinance() {
     type: type.COIN_REQUEST,
   };
 }
+
+export function getCoinPrice(symbol: string) {
+  return {
+    type: type.COIN_PRICE_REQUEST,
+    symbol,
+  };
+}
