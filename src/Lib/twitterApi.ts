@@ -7,30 +7,31 @@ const token =
   'AAAAAAAAAAAAAAAAAAAAAGtpTgEAAAAAcWKx4FcdUdBPPGo54dS9pbX0A0g%3Do26zPgQ73JSnse5xyvFWx3hul4F7XMD0enKxwL5HlNOEl23ywn';
 
 export async function requestUser(usernames: string[]) {
-  let tempData = new Array<IUser>();
-  for (const username of usernames) {
-    await axios
-      .get(`users/by/username/${username}`, {
+  var data = {
+    data: {},
+  };
+  await axios
+    .get(
+      'users/by?usernames=KriptoBaykus,CryptoMelih,CryptoGenzo,siesta_laila,borsaressami,selcoini,cryptocapo_,kriptokalamar,bullscoin,altcoinrookie,canozsuerx,ekonomikocu,thekriptolik,bitcoinkralice,kriptoraporu,paraleydi,proftrader12,turkelit,analizcikurt,vforrkripto,kriptocubaba,ahmetberkayoruc,trader_dilara,aksuerol,kivancozbilgic,deeephunter,thebullduck,falconsubniger,cryptokaleo,atapaykoc,canszrr,cryptododo7,cryptobjektiff,ktutkunlar',
+      {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then(val => {
-        tempData.push(val.data.data);
-      });
-  }
-  const data = {
-    data: tempData,
-  };
+      },
+    )
+    .then(val => {
+      data.data = val.data.data;
+    });
   return data;
 }
 
 export async function requestTweets(ids: string[]) {
   let tempData = new Array<Tweet>();
   for (const id of ids) {
+    console.log(id);
     await axios({
       method: 'GET',
-      url: `users/${id}/tweets?expansions=author_id&user.fields=name,username&exclude=retweets,replies`,
+      url: `users/${id}/tweets?expansions=author_id&&exclude=retweets,replies`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

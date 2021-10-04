@@ -43,7 +43,7 @@ Checks for tweets that include the coin or not.
 export const getCoins = createSelector([getTweets, getUSDT], (tweets, usdt) => {
   Object.values(tweets).map(data => {
     Object.keys(usdt).forEach((key, index) => {
-      if (data.text.includes(usdt[index].coin.baseAsset)) {
+      if (data.text.indexOf(usdt[index].coin.baseAsset) > -1) {
         usdt[index].tweets.push(data);
         usdt[index].count++;
       }

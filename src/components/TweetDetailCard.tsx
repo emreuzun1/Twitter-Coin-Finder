@@ -2,11 +2,11 @@ import React, {FC, useState} from 'react';
 import styled from 'styled-components/native';
 
 import {getValueOfSymbol} from '../Lib/binanceApi';
-import {ITweet} from '../Interfaces/TweetInterface';
+import {Tweet} from '../Interfaces/TweetInterface';
 import {Dimensions, TouchableOpacity} from 'react-native';
 import {Colors} from '../constants/Colors';
 
-const {width, height} = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 
 const StyledContainer = styled.View({
   width: width / 1.05,
@@ -40,8 +40,8 @@ const StyledTweetText = styled.Text({
 
 interface ITweetDetail {
   symbol: string;
-  tweets: ITweet[];
-  onPress: (symbol: string, tweets: ITweet[]) => void;
+  tweets: Tweet[];
+  onPress: (symbol: string, tweets: Tweet[]) => void;
 }
 
 const TweetDetailCard: FC<ITweetDetail> = ({symbol, tweets, onPress}) => {
